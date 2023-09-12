@@ -1,0 +1,116 @@
+﻿@inject IHttpContextAccessor accessor
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - RatingApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/RatingApp.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Admin" asp-action="Home">RatingApp</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (accessor.HttpContext.Session.GetString("email") == null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" role="button" aria-haspopup="true" aria-expanded="false" asp-controller="Admin" asp-action="Home">
+                                    AdminLogIn
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Author
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" asp-controller="Author" asp-action="Home">LogIn</a>
+                                    <a class="dropdown-item" asp-controller="Author" asp-action="Register">Register</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Reader
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#">LogIn</a>
+                                    <a class="dropdown-item" href="#">Register</a>
+                                </div>
+                            </li>
+                        }
+                        else if(accessor.HttpContext.Session.GetString("type").Equals("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" role="button" aria-haspopup="true" aria-expanded="false" asp-controller="Admin" asp-action="ListAuthors">
+                                    ListOfAuthors
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" role="button" aria-haspopup="true" aria-expanded="false" asp-controller="Admin" asp-action="ListBooks">
+                                    ListOfBooks
+                                </a>
+                            
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" role="button" aria-haspopup="true" aria-expanded="false" asp-controller="Admin" asp-action="Register">
+                                    Register Admin
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" role="button" aria-haspopup="true" aria-expanded="false" asp-controller="Admin" asp-action="LogOut">
+                                    LogOut
+                                </a>
+                            </li>
+                        }
+                        else if (accessor.HttpContext.Session.GetString("type").Equals("Reader"))
+                        {
+
+                        }
+                        else if (accessor.HttpContext.Session.GetString("type").Equals("Author"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" role="button" aria-haspopup="true" aria-expanded="false" asp-controller="Admin" asp-action="ListBooks">
+                                    Books
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" role="button" aria-haspopup="true" aria-expanded="false" asp-controller="Author" asp-action="BookDetails" asp-route-id="@accessor.HttpContext.Session.GetString("email")">
+                                    MyBooks
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" role="button" aria-haspopup="true" aria-expanded="false" asp-controller="Admin" asp-action="LogOut">
+                                    LogOut
+                                </a>
+                            </li>
+                        }
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

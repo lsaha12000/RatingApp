@@ -1,0 +1,53 @@
+﻿@inject IHttpContextAccessor acc
+@model IEnumerable<RatingApp.Models.Book>
+
+@{
+    ViewData["Title"] = "ListBooks";
+}
+
+<h1>ListBooks</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Text)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AuhorName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author.emailId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Text)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AuhorName)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author.emailId)
+                </td>
+                @if (acc.HttpContext.Session.GetString("type").Equals("Admin"))
+                {
+                    <td>
+
+                        <a asp-action="DeleteBook" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                }
+        </tr>
+}
+    </tbody>
+</table>

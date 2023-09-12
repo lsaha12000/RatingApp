@@ -1,0 +1,52 @@
+﻿@inject IHttpContextAccessor accessor
+@model IEnumerable<RatingApp.Models.Book>
+
+@{
+    ViewData["Title"] = "BookDetails";
+}
+
+<h1>BookDetails of @Model.First().AuhorName</h1>
+
+@if (accessor.HttpContext.Session.GetString("type").Equals("Author"))
+{
+    <p>
+        <a asp-action="AddBook">Create New</a>
+    </p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Text)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AuhorName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Text)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AuhorName)
+            </td>
+                @if (accessor.HttpContext.Session.GetString("type").Equals("Admin") || accessor.HttpContext.Session.GetString("type").Equals("Author"))
+                {
+                    <td>
+                        <a asp-action="DeleteBook" asp-route-id="@item.Id" asp-controller="Admin">Delete</a>
+                    </td>
+                }
+        </tr>
+}
+    </tbody>
+</table>

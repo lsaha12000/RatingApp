@@ -1,0 +1,54 @@
+﻿@model IEnumerable<RatingApp.Models.Author>
+
+@{
+    ViewData["Title"] = "ListAuthors";
+}
+
+<h1>ListAuthors</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.emailId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model=>model.books.Count)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.emailId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                    @if (item.books == null)
+                    {
+                        <div>0</div>
+                    }
+                    else
+                    {
+                        <div>@item.books.Count</div>
+                    }
+                </td>
+            <td>
+                    @if (item.books != null)
+                    {
+                        <div><a asp-controller="Author" asp-action="BookDetails" asp-route-id="@item.emailId">Book Details</a>|</div>
+                    }
+                <a asp-action="DeleteAuthor" asp-route-id="@item.emailId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
